@@ -49,10 +49,13 @@ public:
 	//initiate linked list of sub-pattern elemnents
 	list<SubPattern> subpatterns;
 	typedef list<SubPattern>::iterator SubPatternIterator;
+	
+	
+	//part1 
+	//Generate all subpattern records across whole length of pattern
+	//starting from second rightmost element to last
 	queue<SubPatternIterator> que;
 	queue<SubPatternIterator> helperQue;
-
-
 	char lastChar = pattern.back();
 	for (int i = pattern.length()-2 ; i !=-1 ; --i)
 	{
@@ -77,6 +80,21 @@ public:
 			que.push(--subpatterns.end());
 		}
 	}
+
+
+	//part2
+	//use subpattern record list to find the most suitable rightmost occurence of subpattern
+	// J = number of matches, 
+	// L - number of elements in a subpattern
+
+	//we are looking for subpattern that satisfies theese conditions:
+	//1.Complete match. That is any first occurence of subpattern with L>=J.
+	//2. if L<J then we have partial subpattern match. We then store Min = J-L;
+	//3. each iteration we check wheather we have 1 and if not we update 2.
+	//4. if we got to the end of the loop without perfect match(1), then we
+	//   use the best fit - the subpattern with Min'inimal difference J-L;
+	//   whichever subpattern was choisen the best fit among partial matches or the perfect fit
+
 	goodSuffixTable.resize(pattern.length());
 
 	for (int i = 1; i < (int)pattern.length(); ++i)
